@@ -1,0 +1,4 @@
+Model,Importance
+LGBMClassifier,0.25032550034181794
+LogisticRegression,0.31866977538667923
+SGDClassifier,0.43100472427150277

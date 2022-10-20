@@ -1,0 +1,14 @@
+[global]
+disableWatchdogWarning = false
+[theme]
+base="light"
+primaryColor="#0eaad0"
+[server]
+maxUploadSize = 5
+fileWatcherType = "poll"
+runOnSave = true
+headless = true
+[browser]
+gatherUsageStats = false
+[runner]
+fastReruns = true

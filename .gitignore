@@ -1,0 +1,5 @@
+
+venv
+__pycache__
+Backend/df_stack.mgz
+.env

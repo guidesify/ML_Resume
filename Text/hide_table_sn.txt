@@ -1,0 +1,8 @@
+<style>
+table td:nth-child(1) {
+    display: none
+}
+table th:nth-child(1) {
+    display: none
+}
+</style>

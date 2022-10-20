@@ -1,0 +1,27 @@
+<style>
+div[data-testid="stToolbar"] {
+visibility: hidden;
+height: 0%;
+position: fixed;
+}
+div[data-testid="stDecoration"] {
+visibility: hidden;
+height: 0%;
+position: fixed;
+}
+div[data-testid="stStatusWidget"] {
+visibility: hidden;
+height: 0%;
+position: fixed;
+}
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+footer:after {
+    content:'By Lau YongLe, Le Vu Anh Phuong (Joshua), Cheng Chang Rong Leonard, Jacqueline Chin Siew Roong, Jovinka Hartanto, Hou Shuyan'; 
+    visibility: visible;
+    display: block;
+    position: relative;
+    #background-color: red;
+    padding: 5px;
+    top: 2px;
+</style>
