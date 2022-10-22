@@ -34,7 +34,7 @@ jobs:
     - name: Deploy
       run: |
         gcloud run deploy ${{ secrets.GCP_APPLICATION }} \
-        --image gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.GCP_APPLICATION }}:v1 --timeout=3600 \
+        --image gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.GCP_APPLICATION }}:v1 --timeout=60 \
         --platform managed \
         --allow-unauthenticated \
         --memory 1Gi \
