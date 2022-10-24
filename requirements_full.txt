@@ -19,7 +19,7 @@ GitPython==3.1.29
 idna==3.4
 importlib-metadata==5.0.0
 Jinja2==3.1.2
-joblib==1.1.0
+joblib==1.2.0
 jsonschema==4.16.0
 lightgbm==3.3.2
 MarkupSafe==2.1.1
