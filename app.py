@@ -2,8 +2,6 @@ import streamlit as st, pandas as pd, requests, os
 from functions import *
 # from nltk.stem import WordNetLemmatizer
 # Load environment variables
-from dotenv import load_dotenv
-load_dotenv()
 
 @st.experimental_memo(suppress_st_warning=True, show_spinner=False)
 def get_cred_config():
@@ -13,6 +11,8 @@ def get_cred_config():
         return secret
     else:
         print("GCP_API_URL not found in environment variables")
+        from dotenv import load_dotenv
+        load_dotenv()
         return os.getenv("API_URL")
 
 @st.experimental_memo(suppress_st_warning=True, show_spinner=False)
@@ -104,11 +104,11 @@ if __name__ == '__main__':
             col1, col2, col3 = st.columns(3)
             with col1:
                 st.session_state.field = st.selectbox('', st.session_state.fields)
-                st.dataframe(
-                    st.session_state.df_stack[st.session_state.field.upper()]
-                    .sort_values(ascending=False).head(10).to_frame()
-                    .rename(columns={st.session_state.field.upper(): 'Importance'}), height=400
-                )
+            st.dataframe(
+                st.session_state.df_stack[st.session_state.field.upper()]
+                .sort_values(ascending=False).head(10).to_frame()
+                .rename(columns={st.session_state.field.upper(): 'Importance'}), height=400
+            )
 
         # About Voting
         for i in range(3): 
