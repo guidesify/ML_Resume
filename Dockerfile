@@ -3,6 +3,8 @@ ENV PATH=/usr/local/bin:$PATH
 
 WORKDIR .
 COPY . .
+# Show files in the current directory
+RUN ls -la
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt && \
     rm -rf /var/lib/apt/lists/*
