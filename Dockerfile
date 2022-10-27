@@ -3,8 +3,8 @@ ENV PATH=/usr/local/bin:$PATH
 
 WORKDIR .
 COPY . .
-# Show files by size
-RUN du -shc ./*
+# Show files in backends folder
+RUN ls -la Backend
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt && \
     rm -rf /var/lib/apt/lists/*
