@@ -6,10 +6,10 @@ __pycache__
 Dockerfile
 *.ipynb
 *.mgz
-pdfs.csv
-Resume.csv
-Resume.pkl
+/Backend/pdfs.csv
+/Backend/Resume.csv
+/Backend/Resume.pkl
 /Backend/stack
 /Backend/vote
-cloud_function.py
+/Backend/cloud_function.py
 .git
