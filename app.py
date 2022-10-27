@@ -1,10 +1,11 @@
-import streamlit as st, pandas as pd, requests, os
+import streamlit as st, pandas as pd
 from functions import *
 # from nltk.stem import WordNetLemmatizer
 # Load environment variables
 
 @st.experimental_memo(suppress_st_warning=True, show_spinner=False)
 def get_cred_config():
+    import os
     secret = os.environ.get("GCP_API_URL")
     if secret:
         print("GCP_API_URL found in environment variables")
@@ -22,6 +23,7 @@ def analyse(text):
     # text = lemmatizer.lemmatize(text)
 
     # Analyse the text
+    import requests
     api = get_cred_config()
     headers = {'Content-Type': 'application/json'}
     prediction = requests.post(api, json={"text": text}, headers=headers).json()['predictions']
