@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   deploy-min:
-    name: Enhanced Deploy
+    name: Deploy
     runs-on: ubuntu-latest
     env:
       _IMAGE_NAME: "gcr.io/${{ secrets.GCP_PROJECT }}/${{ secrets.GCP_APPLICATION }}"
@@ -25,22 +25,24 @@ jobs:
       - name: Build Base Docker Image
         run: |
           docker build -f Dockerfile -t ${{ env._IMAGE_NAME }}:v1 .
+          docker push ${{ env._IMAGE_NAME }}:v1
+          gcloud config set run/region us-central1
 
-      - name: Build Docker-Slim Image and Push to GCR
-        run: |
-          bash -c |
-            curl -L -o ds.tar.gz https://downloads.dockerslim.com/releases/1.39.0/dist_linux.tar.gz;
-            tar -xvf ds.tar.gz;
-            mv dist_linux/docker-slim /usr/local/bin;
-            mv dist_linux/docker-slim-sensor /usr/local/bin;
-            docker-slim build --sensor-ipc-mode proxy --sensor-ipc-endpoint $(docker network inspect bridge -f '{{range .IPAM.Config}}{{.Gateway}}{{end}}' | cut -f1) ${{ env._IMAGE_NAME }}:v1;
-            docker push ${{ env._IMAGE_NAME }}.slim:latest
-            gcloud config set run/region us-central1
+      # - name: Build Docker-Slim Image and Push to GCR
+      #   run: |
+      #     bash -c |
+      #       curl -L -o ds.tar.gz https://downloads.dockerslim.com/releases/1.39.0/dist_linux.tar.gz;
+      #       tar -xvf ds.tar.gz;
+      #       mv dist_linux/docker-slim /usr/local/bin;
+      #       mv dist_linux/docker-slim-sensor /usr/local/bin;
+      #       docker-slim build --sensor-ipc-mode proxy --sensor-ipc-endpoint $(docker network inspect bridge -f '{{range .IPAM.Config}}{{.Gateway}}{{end}}' | cut -f1) ${{ env._IMAGE_NAME }}:v1;
+      #       docker push ${{ env._IMAGE_NAME }}.slim:latest
+      #       gcloud config set run/region us-central1
 
       - name: Deploy
         run: |
           gcloud run deploy ${{ secrets.GCP_APPLICATION }} \
-          --image ${{ env._IMAGE_NAME }}.slim:latest \
+          --image ${{ env._IMAGE_NAME }}:v1 \
           --timeout 60s \
           --platform managed \
           --allow-unauthenticated \

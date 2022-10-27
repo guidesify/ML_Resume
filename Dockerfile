@@ -2,18 +2,13 @@ FROM python:3.10-slim-buster AS builder
 ENV PATH=/usr/local/bin:$PATH
 
 WORKDIR .
-RUN pip install --upgrade pip
-COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt 
-COPY index.html /usr/local/lib/python3.10/site-packages/streamlit/static/index.html
-COPY favicon.png /usr/local/lib/python3.10/site-packages/streamlit/static/favicon.png
-COPY app.py app.py
-COPY functions.py functions.py
-COPY Text Text
-COPY .streamlit .streamlit
-COPY Backend/imp_minmax.csv Backend/imp_minmax.csv
-COPY Backend/df_stack.csv Backend/df_stack.csv
-RUN find /usr/local/lib/python3.10/site-packages/streamlit -type f \( -iname \*.py -o -iname \*.js \) -print0 | xargs -0 sed -i 's/healthz/health-check/g'
+COPY . .
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt && \
+    rm -rf /var/lib/apt/lists/*
+RUN cp index.html /usr/local/lib/python3.10/site-packages/streamlit/static/index.html && \
+    cp favicon.png /usr/local/lib/python3.10/site-packages/streamlit/static/favicon.png && \
+    find /usr/local/lib/python3.10/site-packages/streamlit -type f \( -iname \*.py -o -iname \*.js \) -print0 | xargs -0 sed -i 's/healthz/health-check/g'
 
 # We are doing a 2-stage build to make it lighter
 FROM python:3.10-slim-buster AS app

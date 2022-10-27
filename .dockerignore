@@ -1,0 +1,15 @@
+env/
+.gitignore
+.gitattributes
+__pycache__
+.github
+Dockerfile
+*.ipynb
+*.mgz
+pdfs.csv
+Resume.csv
+Resume.pkl
+/Backend/stack
+/Backend/vote
+cloud_function.py
+.git
