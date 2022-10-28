@@ -41,10 +41,23 @@ def analyse(text):
     df.columns = ['Probability']
     df = df.sort_values(by='Probability', ascending=False)
     df['Probability'] = df['Probability'].apply(lambda x: str(round(x*100, 2)) + '%')
-    df = df.reset_index().rename(columns={'index': 'Job Title'})
-    df['Job Title'] = df['Job Title'].str.title()
+    df = df.reset_index().rename(columns={'index': 'Job Field'})
+    df['Job Field'] = df['Job Field'].str.title()
 
     return df, prediction2
+
+def display_LDA(_class):
+    import glob
+    # Let's find the files with the CLASS and ends with html
+    file = glob.glob(f'./Backend/html_nounverb/{_class}*.html')[0]
+    with open(file, 'r') as f:
+        html_string = f.read()
+        import re
+        stylesheet = re.search(r'<link rel="stylesheet" type="text/css" href="(.*)">', html_string).group(0)
+    with open('Backend/html_nounverb/style.css', 'r') as f:
+        css_string = f.read()
+        html_string = html_string.replace(stylesheet, f'<style>{css_string}</style>')
+    return html_string
 
 @st.experimental_memo(suppress_st_warning=True, show_spinner=False)
 def show_importance():
@@ -72,6 +85,11 @@ def page_one():
             s_result, v_result = analyse(st.session_state.text)
             st.code('Using a Stacking Classifier (F1 Score = 0.81), the top 3 predictions are:', language=None)
             st.dataframe(s_result.head(3))
+            st.session_state._class = s_result['Job Field'][0]
+            st.session_state.html_string = display_LDA(st.session_state._class)
+            st.subheader("LDA Topic Modelling for " + st.session_state._class)
+            st.components.v1.html(st.session_state.html_string, width=2000, height=800, scrolling=False)
+
             for i in range(2): 
                 st.text("")
             if st.button('Other Models'):
@@ -97,7 +115,7 @@ def page_two():
         st.session_state.df_stack, st.session_state.fields = show_dataframe()
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.session_state.field = st.selectbox('', st.session_state.fields)
+            st.session_state.field = st.selectbox('Select a field', st.session_state.fields, label_visibility='collapsed')
         st.dataframe(
             st.session_state.df_stack[st.session_state.field.upper()]
             .sort_values(ascending=False).head(10).to_frame()
@@ -118,7 +136,7 @@ def main():
     st.markdown(read_text('./Text/hide_table_sn.txt'), unsafe_allow_html=True)
     st.markdown(read_text('./Text/hide_streamlit_menu.txt'), unsafe_allow_html=True) 
     st.sidebar.title("Select Option")
-    option = st.sidebar.selectbox('', ['Main', 'About Models'])
+    option = st.sidebar.selectbox('Select a Page', ['Main', 'About Models'], label_visibility='collapsed')
 
     # Main Page
     if option == 'Main':
@@ -127,7 +145,7 @@ def main():
     # About Page
     elif option == 'About Models':
         page_two()
-
+    
 # App UI
 if __name__ == '__main__':
     main()
