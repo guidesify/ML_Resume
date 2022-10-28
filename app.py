@@ -101,7 +101,8 @@ def page_two():
         st.dataframe(
             st.session_state.df_stack[st.session_state.field.upper()]
             .sort_values(ascending=False).head(10).to_frame()
-            .rename(columns={st.session_state.field.upper(): 'Importance'}), height=400
+            .reset_index(drop=False)
+            .rename(columns={'index': 'Feature', st.session_state.field.upper(): 'Importance'})
         )
 
     # About Voting
