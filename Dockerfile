@@ -22,7 +22,7 @@ ENV LANG=C.UTF-8
 
 EXPOSE 8080
 
-WORKDIR .
+WORKDIR /app
 
 ENTRYPOINT [ "streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0", "--server.enableCORS=false"]
 
