@@ -1,7 +1,7 @@
 FROM python:3.10-slim-buster AS builder
 ENV PATH=/usr/local/bin:$PATH
 
-WORKDIR .
+WORKDIR /app
 COPY . .
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt && \
@@ -13,7 +13,7 @@ RUN cp index.html /usr/local/lib/python3.10/site-packages/streamlit/static/index
 # We are doing a 2-stage build to make it lighter
 FROM python:3.10-slim-buster AS app
 COPY --from=builder /usr/local /usr/local
-COPY --from=builder . .
+COPY --from=builder /app /app
 ENV PATH=/usr/local/bin:$PATH
 
 # streamlit-specific commands for config
