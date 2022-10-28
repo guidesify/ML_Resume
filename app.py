@@ -59,7 +59,6 @@ def show_dataframe():
 
 # App UI
 if __name__ == '__main__':
-    st.session_state.text = None
     st.set_page_config(page_title='Resume Analyzer by Guidesify', layout="wide")
     st.markdown(read_text('./Text/hide_table_sn.txt'), unsafe_allow_html=True)
     st.markdown(read_text('./Text/hide_streamlit_menu.txt'), unsafe_allow_html=True) 
@@ -74,7 +73,9 @@ if __name__ == '__main__':
 
         # Create file uploader
         uploaded_file = st.file_uploader('Upload a file', type=['pdf'])
-        if uploaded_file is not None or st.session_state.text is not None:
+        if uploaded_file is not None:
+            st.session_state.file = uploaded_file
+        if hasattr(st.session_state, 'file'):
             with st.spinner('Calling API...'):
                 st.session_state.text = extract_resume(uploaded_file)
                 s_result, v_result = analyse(st.session_state.text)
