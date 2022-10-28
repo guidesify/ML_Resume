@@ -1,4 +1,2 @@
 pdfminer.six==20220524
-streamlit==1.2.0
-python-dotenv==0.21.0
-protobuf==3.19.1
+streamlit==1.14.0
