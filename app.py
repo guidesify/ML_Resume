@@ -1,11 +1,10 @@
-import streamlit as st, pandas as pd
+import streamlit as st, pandas as pd, os
 from functions import *
 # from nltk.stem import WordNetLemmatizer
 # Load environment variables
 
 @st.experimental_memo(suppress_st_warning=True, show_spinner=False)
 def get_cred_config():
-    import os
     secret = os.environ.get("GCP_API_URL")
     if secret:
         print("GCP_API_URL found in environment variables")
@@ -47,9 +46,9 @@ def analyse(text):
     return df, prediction2
 
 def display_LDA(_class):
-    import glob
     # Let's find the files with the CLASS and ends with html
-    file = glob.glob('/app/Backend/html_nounverb/{_class}*.html'.format(_class=_class))[0]
+    basepath = 'Backend/html_nounverb/'
+    file = basepath + [f for f in os.listdir(basepath) if os.path.isfile(os.path.join(basepath, f)) and f.endswith('.html') and f.startswith(_class.upper())][0]
     with open(file, 'r') as f:
         html_string = f.read()
         import re
