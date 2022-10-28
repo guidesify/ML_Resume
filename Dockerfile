@@ -15,6 +15,9 @@ FROM python:3.10-slim-buster AS app
 COPY --from=builder /usr/local /usr/local
 COPY --from=builder /app /app
 ENV PATH=/usr/local/bin:$PATH
+RUN ls -la /app
+RUN ls -la /app/Backend
+RUN ls -la /app/Backend/html_nounverb
 
 # streamlit-specific commands for config
 ENV LC_ALL=C.UTF-8

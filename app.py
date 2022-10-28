@@ -49,7 +49,7 @@ def analyse(text):
 def display_LDA(_class):
     import glob
     # Let's find the files with the CLASS and ends with html
-    file = glob.glob(f'Backend/html_nounverb/{_class}*.html')[0]
+    file = glob.glob('Backend/html_nounverb/{_class}*.html'.format(_class=_class))[0]
     with open(file, 'r') as f:
         html_string = f.read()
         import re
