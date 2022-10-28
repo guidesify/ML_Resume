@@ -68,7 +68,7 @@ def page_one():
         st.session_state.file = uploaded_file
     if hasattr(st.session_state, 'file'):
         with st.spinner('Calling API...'):
-            st.session_state.text = extract_resume(uploaded_file)
+            st.session_state.text = extract_resume(st.session_state.file)
             s_result, v_result = analyse(st.session_state.text)
             st.code('Using a Stacking Classifier (F1 Score = 0.81), the top 3 predictions are:', language=None)
             st.dataframe(s_result.head(3))
