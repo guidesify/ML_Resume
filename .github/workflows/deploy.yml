@@ -26,7 +26,7 @@ jobs:
         run: |
           docker build -f Dockerfile -t ${{ env._IMAGE_NAME }}:v1 .
           docker push ${{ env._IMAGE_NAME }}:v1
-          gcloud config set run/region us-central1
+          gcloud config set run/region us-east1
 
       # - name: Build Docker-Slim Image and Push to GCR
       #   run: |
