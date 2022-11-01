@@ -43,7 +43,7 @@ jobs:
         run: |
           gcloud run deploy ${{ secrets.GCP_APPLICATION }} \
           --image ${{ env._IMAGE_NAME }}:v1 \
-          --timeout 3600s \
+          --timeout 180s \
           --platform managed \
           --allow-unauthenticated \
           --memory 256Mi \
