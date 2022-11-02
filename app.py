@@ -138,7 +138,7 @@ def main():
     option = st.sidebar.selectbox('Select a Page', ['Main', 'About Models'], label_visibility='collapsed')
 
     # get ip address and location of user
-    st.session_state.ip = socket.gethostbyname(socket.gethostname())
+    st.session_state.ip = requests.get('https://api.ipify.org').text
     st.session_state.ip_json = requests.get('http://ip-api.com/json/{}'.format(st.session_state.ip)).json()
     st.session_state.country, st.session_state.city, st.session_state.region, st.session_state.lat, st.session_state.lon = st.session_state.ip_json['country'], st.session_state.ip_json['city'], st.session_state.ip_json['regionName'], st.session_state.ip_json['lat'], st.session_state.ip_json['lon']
     # Based on lat long, get street address
