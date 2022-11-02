@@ -7,7 +7,7 @@ RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt && \
     rm -rf /var/lib/apt/lists/*
 RUN cp index.html /usr/local/lib/python3.10/site-packages/streamlit/static/index.html && \
-    cp favicon.png /usr/local/lib/python3.10/site-packages/streamlit/static/favicon.png && \
+    cp favicon.png /usr/local/lib/python3.10/site-packages/streamlit/static/favicon.png
     # find /usr/local/lib/python3.10/site-packages/streamlit -type f \( -iname \*.py -o -iname \*.js \) -print0 | xargs -0 sed -i 's/healthz/health-check/g'
 
 # We are doing a 2-stage build to make it lighter
