@@ -149,7 +149,7 @@ def main():
     City: {}
     Region: {}
     Address: {}
-    '''.format(st.session_state.ip, st.session_state.country, st.session_state.city, st.session_state.region, st.session_state.address))
+    '''.format(st.session_state.ip, st.session_state.country, st.session_state.city, st.session_state.region, st.session_state.address)
     print(st.session_state.user_details)
     # If user is in Singapore, show page
     if st.session_state.country == 'Singapore':
