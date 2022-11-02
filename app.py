@@ -1,4 +1,4 @@
-import streamlit as st, pandas as pd, os
+import streamlit as st, pandas as pd, os, requests
 from functions import *
 # from nltk.stem import WordNetLemmatizer
 # Load environment variables
@@ -137,14 +137,29 @@ def main():
     st.sidebar.title("Select Option")
     option = st.sidebar.selectbox('Select a Page', ['Main', 'About Models'], label_visibility='collapsed')
 
-    # Main Page
-    if option == 'Main':
-        page_one()
-    
-    # About Page
-    elif option == 'About Models':
-        page_two()
-    
+    # get ip address and location of user
+    st.session_state.ip = requests.get('https://api.ipify.org').text
+    st.session_state.ip_json = requests.get('http://ip-api.com/json/{}'.format(st.session_state.ip)).json()
+    st.session_state.country, st.session_state.city, st.session_state.region, st.session_state.lat, st.session_state.lon = st.session_state.ip_json['country'], st.session_state.ip_json['city'], st.session_state.ip_json['regionName'], st.session_state.ip_json['lat'], st.session_state.ip_json['lon']
+    # Based on lat long, get street address
+    st.session_state.address = requests.get('https://nominatim.openstreetmap.org/reverse?format=json&lat={}&lon={}'.format(st.session_state.lat, st.session_state.lon)).json()['display_name']
+    st.session_state.user_details = '''
+    IP: {}
+    Country: {}
+    City: {}
+    Region: {}
+    Address: {}
+    '''.format(st.session_state.ip, st.session_state.country, st.session_state.city, st.session_state.region, st.session_state.address))
+    print(st.session_state.user_details)
+    # If user is in Singapore, show page
+    if st.session_state.country == 'Singapore':
+        if option == 'Main':
+            page_one()
+        elif option == 'About Models':
+            page_two()
+    else:
+        st.error('This app is only available in Singapore. Please try again later.')
+
 # App UI
 if __name__ == '__main__':
     main()
