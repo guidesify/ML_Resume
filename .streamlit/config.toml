@@ -3,5 +3,7 @@ base="light"
 primaryColor="#0eaad0"
 [server]
 maxUploadSize = 5
+enableCORS=false
+enableXsrfProtection=false
 [runner]
 magicEnabled = false
