@@ -147,8 +147,4 @@ def main():
     
 # App UI
 if __name__ == '__main__':
-    try:
-        main()
-    except Exception as e:
-        st.error(e)
-        raise e
+    main()
