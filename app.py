@@ -24,10 +24,20 @@ def analyse(text):
     # Analyse the text
     import requests
     api = get_cred_config()
-    headers = {'Content-Type': 'application/json'}
-    prediction = requests.post(api, json={"text": text}, headers=headers).json()['predictions']
-    prediction2 = requests.post(api, json={'text2': text}, headers=headers).json()['predictions']
-    classes = requests.post(api, json={'classes': True}, headers=headers).json()['classes']
+    counter = 0
+    while True:
+        try:
+            headers = {'Content-Type': 'application/json'}
+            prediction = requests.post(api, json={"text": text}, headers=headers).json()['predictions']
+            prediction2 = requests.post(api, json={'text2': text}, headers=headers).json()['predictions']
+            classes = requests.post(api, json={'classes': True}, headers=headers).json()['classes']
+            break
+        except:
+            counter += 1
+            if counter > 5:
+                raise Exception("Refresh the page and try again.")
+            else:
+                continue
 
     # Create a dataframe
     dic = {}
@@ -136,21 +146,6 @@ def main():
     st.markdown(read_text('./Text/hide_streamlit_menu.txt'), unsafe_allow_html=True) 
     st.sidebar.title("Select Option")
     option = st.sidebar.selectbox('Select a Page', ['Main', 'About Models'], label_visibility='collapsed')
-
-    # get ip address and location of user
-    st.session_state.ip = requests.get('https://api.ipify.org').text
-    st.session_state.ip_json = requests.get('http://ip-api.com/json/{}'.format(st.session_state.ip)).json()
-    st.session_state.country, st.session_state.city, st.session_state.region, st.session_state.lat, st.session_state.lon = st.session_state.ip_json['country'], st.session_state.ip_json['city'], st.session_state.ip_json['regionName'], st.session_state.ip_json['lat'], st.session_state.ip_json['lon']
-    # Based on lat long, get street address
-    st.session_state.address = requests.get('https://nominatim.openstreetmap.org/reverse?format=json&lat={}&lon={}'.format(st.session_state.lat, st.session_state.lon)).json()['display_name']
-    st.session_state.user_details = '''
-    IP: {}
-    Country: {}
-    City: {}
-    Region: {}
-    Address: {}
-    '''.format(st.session_state.ip, st.session_state.country, st.session_state.city, st.session_state.region, st.session_state.address)
-    print(st.session_state.user_details)
 
     if option == 'Main':
         page_one()
